@@ -2,9 +2,6 @@ import React from 'react'
 import { Card, CardBody, CardImg, CardText, CardTitle, CardSubtitle } from 'reactstrap'
 
 
-
-
-
 function RenderDish({ dish }) {
 
     return (
@@ -43,6 +40,7 @@ function RenderComment({ dish }) {
 
         <div>
             <h1>Comments</h1>
+            <hr></hr>
             {comments}
         </div>
 
