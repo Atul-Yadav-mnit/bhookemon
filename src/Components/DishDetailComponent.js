@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, CardBody, CardImg, CardText, CardTitle, CardSubtitle } from 'reactstrap'
+import { Card, CardBody, CardImg, CardText, CardTitle, CardSubtitle ,BreadcrumbItem,Breadcrumb} from 'reactstrap'
+import {Link} from'react-router-dom'
 
 
 function RenderDish({ dish }) {
@@ -20,10 +21,10 @@ function RenderDish({ dish }) {
     )
 }
 
-function RenderComment({ dish }) {
+function RenderComment({comments}) {
 
 
-    const comments = dish.comments.map((comment) => {
+    const com = comments.map((comment) => {
         return (
             <div>
                 <h5>{comment.author} </h5>
@@ -34,20 +35,19 @@ function RenderComment({ dish }) {
 
     })
 
-    console.log(comments);
 
     return (
 
         <div>
             <h1>Comments</h1>
             <hr></hr>
-            {comments}
+            {com}
         </div>
 
     )
 }
 
-function DishDetailComponent({ dish }) {
+function DishDetailComponent({ dish, comments }) {
 
     if (dish == null) {
         return (
@@ -60,12 +60,18 @@ function DishDetailComponent({ dish }) {
 
     return (
         <div className="container">
+            <div className="row mt-3">
+                <Breadcrumb>
+                <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+                </Breadcrumb>
+            </div>
             <div className="row">
-                <div className="col-md-6 col-sm-12 mt-5">
+                <div className="col-md-6 col-sm-12">
                     <RenderDish dish={dish} />
                 </div>
                 <div className="col-md-6 col-sm-12 mt-5">
-                    <RenderComment dish={dish} />
+                    <RenderComment comments={comments} />
                 </div>
             </div>
         </div>

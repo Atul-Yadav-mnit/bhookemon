@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import MenuComponent from './MenuComponent'
-import { Navbar, NavbarBrand } from 'reactstrap'
 import { DISHES } from '../shared/Dishes'
+import { COMMENTS } from '../shared/Comments';
+import { PROMOTIONS } from '../shared/Promotions';
+import { LEADERS } from '../shared/Leaders';
 import DishDetailComponent from './DishDetailComponent'
+import Header from './Header'
+import Footer from './Footer'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import Home from './HomeComponent'
+import Contact from './ContactUs';
+import About from './AboutUs';
 
 export class MainComponent extends Component {
 
@@ -10,33 +18,48 @@ export class MainComponent extends Component {
         super(props)
 
         this.state = {
+
             dishes: DISHES,
-            selectedDish: null
+            comments: COMMENTS,
+            promotions: PROMOTIONS,
+            leaders: LEADERS
         }
     }
 
     render() {
 
-        const onClick = (dishId) => {
-            this.setState({
-                selectedDish: dishId
-            })
+
+        const HomePage = () => {
+            return (
+                <Home
+                    dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                    promotion={this.state.promotions.filter((promo) => promo.featured)[0]}
+                    leader={this.state.leaders.filter((leader) => leader.featured)[0]}
+                />
+            )
         }
 
-        
-
-
-        
+        const DishWithId = ({ match }) => {
+            return <DishDetailComponent dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+                comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}>
+            </DishDetailComponent>
+        }
 
         return (
+
+
+
             <div>
-                <Navbar dark color="primary">
-                    <div className="container">
-                        <NavbarBrand href="/">Bhookemon</NavbarBrand>
-                    </div>
-                </Navbar>
-                <MenuComponent dishes={this.state.dishes} selectedDish={this.state.selectedDish} onClick={(dishId) => onClick(dishId)} />
-                <DishDetailComponent dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}/>
+                <Header />
+                <Switch>
+                    <Route path="/home" component={HomePage} />
+                    <Route exact path="/menu" component={() => <MenuComponent dishes={this.state.dishes} />} />
+                    <Route path='/menu/:dishId' component={DishWithId} />
+                    <Route path='/contactus' component={() => <Contact/>}/>
+                    <Route path="/aboutus" component={() => <About leaders={this.state.leaders} />} />
+                    <Redirect to="/home" />
+            </Switch>
+                <Footer />
             </div>
         )
     }
