@@ -40,7 +40,8 @@ class RenderComment extends Component {
     }
 
     handleSubmit = values => {
-        alert(JSON.stringify(values))
+        alert("here is in submit")
+        this.props.add_comment(this.props.dishId, values.name, values.rating, values.comment)
         this.toggle();
     }
 
@@ -72,7 +73,7 @@ class RenderComment extends Component {
                 <hr></hr>
                 <Button color="danger" onClick={this.toggle}>Comment</Button>
                 <Modal isOpen={this.state.isOpen} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Review the Dish</ModalHeader>
                     <ModalBody>
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                         <Row className="form-group">
@@ -153,7 +154,7 @@ class RenderComment extends Component {
 }
 
 
-function DishDetailComponent({ dish, comments }) {
+function DishDetailComponent({ dish, comments , add_comment}) {
 
     if (dish == null) {
         return (
@@ -177,7 +178,7 @@ function DishDetailComponent({ dish, comments }) {
                     <RenderDish dish={dish} />
                 </div>
                 <div className="col-md-6 col-sm-12 mt-5">
-                    <RenderComment comments={comments} />
+                    <RenderComment comments={comments} add_comment={add_comment}  dishId={dish.id}/>
                 </div>
             </div>
         </div>
