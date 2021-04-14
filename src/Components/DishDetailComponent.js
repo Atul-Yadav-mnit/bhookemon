@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, CardBody,    Label, CardImg, CardText, CardTitle, CardSubtitle, BreadcrumbItem, Breadcrumb, Button, Modal, ModalHeader, ModalBody,Row, Col } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { LocalForm, Control, Errors } from 'react-redux-form'
+import { Loading } from './LoadingComponent'
 
 
 
@@ -51,16 +52,30 @@ class RenderComment extends Component {
         const maxLength = (len) => (val) => !(val) || (val.length <= len);
         const minLength = (len) => (val) => val && (val.length >= len);
 
-        const com = this.props.comments.map((comment) => {
-            return (
-                <div>
-                    <h5>{comment.author} </h5>
-                    <h7>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</h7>
-                    <p>{comment.comment}</p>
-                </div>
-            )
+        var com;
+        if(this.props.commentsLoading)
+        {
+            com = <Loading/>
+        }
+        else if(this.props.commentErr)
+        {
+            com = <div>
+                {this.props.commentErr}
+            </div>
+        }
+        else 
+        {
+            com = this.props.comments.map((comment) => {
+                return (
+                    <div>
+                        <h5>{comment.author} </h5>
+                        <h7>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</h7>
+                        <p>{comment.comment}</p>
+                    </div>
+                )
     
-        })
+            })
+        }
 
         
 
@@ -154,35 +169,45 @@ class RenderComment extends Component {
 }
 
 
-function DishDetailComponent({ dish, comments , add_comment}) {
+function DishDetailComponent({ dish, comments , add_comment, dishErr, dishesLoading,commentErr,commentsLoading}) {
 
-    if (dish == null) {
-        return (
-            <div className="container">
+    var Dishdet;
+    if(dishesLoading)
+    {
+        Dishdet = <div>
+            <Loading/>
+        </div>
+    }
+    else if(dishErr)
+    {
+         Dishdet = <div>
+            {dishErr}
+        </div>
+    }
+    else{
+        Dishdet = <div className="container">
+        <div className="row mt-3">
+            <Breadcrumb>
+                <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+        </div>
+        <div className="row">
+            <div className="col-md-6 col-sm-12">
+                <RenderDish dish={dish} />
             </div>
-        )
+            <div className="col-md-6 col-sm-12 mt-5">
+                <RenderComment comments={comments} add_comment={add_comment} commentErr={commentErr} commentsLoading={commentsLoading} dishId={dish.id}/>
+            </div>
+        </div>
+        </div>
     }
 
 
-
     return (
-        <div className="container">
-            <div className="row mt-3">
-                <Breadcrumb>
-                    <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
-                </Breadcrumb>
-            </div>
-            <div className="row">
-                <div className="col-md-6 col-sm-12">
-                    <RenderDish dish={dish} />
-                </div>
-                <div className="col-md-6 col-sm-12 mt-5">
-                    <RenderComment comments={comments} add_comment={add_comment}  dishId={dish.id}/>
-                </div>
-            </div>
-        </div>
-
+        <div>
+             {Dishdet}
+    </div>       
     )
 }
 

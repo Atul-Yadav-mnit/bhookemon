@@ -1,10 +1,12 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle} from 'reactstrap';
+import { Loading } from './LoadingComponent';
 
 function RenderCard({item}) {
 
     return(
+
         <Card>
             <CardImg src={item.image} alt={item.name} />
             <CardBody>
@@ -18,17 +20,66 @@ function RenderCard({item}) {
 }
 
 function Home(props) {
+
+    var Dish;
+    if(props.dishesLoading === true)
+    {
+      Dish = <div>
+        <Loading/>
+        </div>
+    }
+    else if(props.dishErr)
+    {
+        Dish = <p>{props.dishErr}</p>
+    }
+    else
+    {
+        Dish = <RenderCard item={props.dish} />
+    }
+
+    var Promo;
+    if(props.promotionsLoading === true)
+    {
+      Promo = <div>
+        <Loading/>
+        </div>
+    }
+    else if(props.promotionsErr)
+    {
+        Promo = <p>{props.promotionsErr}</p>
+    }
+    else
+    {
+        Promo = <RenderCard item={props.promotion} />
+    }
+
+    var Leader;
+    if(props.leadersLoading === true)
+    {
+      Leader = <div>
+        <Loading/>
+        </div>
+    }
+    else if(props.leadersErr)
+    {
+        Leader = <p>{props.leadersErr}</p>
+    }
+    else
+    {
+        Leader = <RenderCard item={props.leader} />
+    }
+
     return(
         <div className="container mt-5">
             <div className="row align-items-start">
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.dish} />
+                     {Dish}
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.promotion} />
+                    {Promo}
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.leader} />
+                   {Leader}
                 </div>
             </div>
         </div>
