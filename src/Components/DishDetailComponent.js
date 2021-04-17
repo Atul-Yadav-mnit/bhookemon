@@ -3,6 +3,7 @@ import { Card, CardBody,    Label, CardImg, CardText, CardTitle, CardSubtitle, B
 import { Link } from 'react-router-dom'
 import { LocalForm, Control, Errors } from 'react-redux-form'
 import { Loading } from './LoadingComponent'
+import { baseURL } from '../Redux/baseURL'
 
 
 
@@ -12,7 +13,7 @@ function RenderDish({ dish }) {
 
         <div>
             <Card>
-                <CardImg top width="100%" src={dish.image} alt="Dish Image" />
+                <CardImg top width="100%" src={baseURL+dish.image} alt="Dish Image" />
                 <CardBody>
                     <CardTitle tag="h5">{dish.name}</CardTitle>
                     <CardSubtitle tag="h6" className="mb-2 text-muted">{dish.price}</CardSubtitle>
@@ -41,7 +42,7 @@ class RenderComment extends Component {
     }
 
     handleSubmit = values => {
-        alert("here is in submit")
+        //alert("here is in submit")
         this.props.add_comment(this.props.dishId, values.name, values.rating, values.comment)
         this.toggle();
     }

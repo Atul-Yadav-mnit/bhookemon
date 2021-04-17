@@ -23,7 +23,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        add_comment: (dishId, rating, author, comment) => dispatch(ActionCreater.AddComment(dishId, rating, author, comment)),
+        add_comment: (dishId, rating, author, comment) => dispatch(ActionCreater.postComment(dishId, rating, author, comment)),
         fetchDishes: () => dispatch(ActionCreater.FetchDishes()),
         fetchPromotions: () => dispatch(ActionCreater.fetchPromotions()),
         fetchLeaders: () => dispatch(ActionCreater.fetchLeaders()),

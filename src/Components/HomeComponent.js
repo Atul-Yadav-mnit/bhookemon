@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle} from 'reactstrap';
+import { baseURL } from '../Redux/baseURL';
 import { Loading } from './LoadingComponent';
 
 function RenderCard({item}) {
@@ -8,7 +9,7 @@ function RenderCard({item}) {
     return(
 
         <Card>
-            <CardImg src={item.image} alt={item.name} />
+            <CardImg src={baseURL+item.image} alt={item.name} />
             <CardBody>
             <CardTitle>{item.name}</CardTitle>
             {item.designation ? <CardSubtitle>{item.designation}</CardSubtitle> : null }
@@ -62,7 +63,7 @@ function Home(props) {
     }
     else if(props.leadersErr)
     {
-        Leader = <p>{props.leadersErr}</p>
+        Leader = <h3>{props.leadersErr}</h3>
     }
     else
     {

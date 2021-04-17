@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardBody, CardImg, CardTitle, CardSubtitle, Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Loading } from './LoadingComponent';
+import { baseURL } from '../Redux/baseURL';
 
 
 function RenderDish({ dish }) {
@@ -9,7 +10,7 @@ function RenderDish({ dish }) {
         <div>
             <Link to={`/menu/${dish.id}`} >
                 <Card>
-                    <CardImg top width="100%" src={dish.image} alt="Dish Image" />
+                    <CardImg top width="100%" src={baseURL+dish.image} alt="Dish Image" />
                     <CardBody>
                         <CardTitle tag="h5">{dish.name}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{dish.price}</CardSubtitle>
