@@ -9,6 +9,7 @@ import Contact from './ContactUs';
 import About from './AboutUs';
 import { connect } from 'react-redux'
 import * as ActionCreater from '../Redux/ActionCreater'
+import {actions} from 'react-redux-form'
 
 
 const mapStateToProps = state => {
@@ -26,7 +27,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchDishes: () => dispatch(ActionCreater.FetchDishes()),
         fetchPromotions: () => dispatch(ActionCreater.fetchPromotions()),
         fetchLeaders: () => dispatch(ActionCreater.fetchLeaders()),
-        fetchComments : () => dispatch(ActionCreater.fetchComments())
+        fetchComments : () => dispatch(ActionCreater.fetchComments()),
+        resetFeedback : () => dispatch(actions.reset('feedback'))
     }
 }
 
@@ -87,7 +89,7 @@ export class MainComponent extends Component {
                     <Route exact path="/menu" component={() => <MenuComponent dishes={this.props.dishes.dishes} dishErr={this.props.dishes.errmsg}
                         dishesLoading={this.props.dishes.isLoading} />} />
                     <Route path='/menu/:dishId' component={DishWithId} />
-                    <Route path='/contactus' component={() => <Contact />} />
+                    <Route path='/contactus' component={() => <Contact resetFeedback={this.props.resetFeedback}/>} />
                     <Route path="/aboutus" component={() => <About leaders={this.props.leaders.leaders}  leadersErr={this.props.leaders.errmsg} leadersLoading={this.props.leaders.isLoading}/> } />
                     <Redirect to="/home" />
                 </Switch>
