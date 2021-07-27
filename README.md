@@ -1,3 +1,10 @@
+# Bhookemon
+
+Bhookemon is a single-page ReactJS web application for an Indian-based restaurant that aims to show restaurant's available dishes 
+and make users able to comment on them.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
